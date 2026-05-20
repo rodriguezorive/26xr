@@ -1,18 +1,29 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <!-- Luz puntual tipo foco -->
-      <a-light type="spot" color="#ffffff" intensity="1"
-               position="0 4 -3" angle="30" penumbra="0.5"
-               target="#targetBox"></a-light>
+      <!-- Environment de terceros: forest con luz desactivada para controlarla nosotros -->
+      <a-entity environment="preset: forest; lighting: none; shadow: false"></a-entity>
 
-      <!-- Caja objetivo -->
-      <a-box id="targetBox" position="0 1 -3" rotation="0 45 0" color="#FFC65D"></a-box>
-      <a-plane rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
+      <!-- Luz ambiental tenue -->
+      <a-light type="ambient" color="#ffffff" intensity="0.3"></a-light>
+
+      <!-- Sol: esfera amarilla con luz point, se mueve de lado a lado -->
+      <a-sphere position="-10 4 -5" radius="0.6"
+                material="shader: flat; color: #FFDD00"
+                animation="property: position; from: -10 4 -5; to: 10 4 -5; dir: alternate; easing: easeInOutSine; dur: 8000; loop: true">
+
+        <!-- Luz point dentro de la esfera para iluminar la escena -->
+        <a-light type="point" color="#FFEE88" intensity="2" distance="40" decay="1"></a-light>
+      </a-sphere>
+
+      <!-- Objetos para ver la iluminación -->
+      <a-box position="-2 0.5 -5" color="#C0A080"></a-box>
+      <a-box position="2 0.5 -5" color="#A0C080"></a-box>
+      <a-sphere position="0 0.8 -5" radius="0.8" color="#D0D0D0"></a-sphere>
     </a-scene>
   </body>
 </html>
